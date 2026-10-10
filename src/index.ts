@@ -30,6 +30,7 @@ import {
   handleAgentAudit,
 } from './routes.ts';
 import { handleMcp, handleMcpMethodNotAllowed } from './mcp.ts';
+import { INLINED_ASSETS, INDEX_HTML } from './assets.ts';
 
 const CSP =
   "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; " +
@@ -101,7 +102,15 @@ async function route(request: Request, env: Env): Promise<Response> {
     if (method === 'GET' || method === 'DELETE') return handleMcpMethodNotAllowed(request, env);
   }
 
-  // Static frontend (index.html, /static/*) via the [assets] binding.
+  // Static frontend: inlined at build time (API deploys), with the [assets]
+  // binding as a fallback when present (wrangler deploys).
+  if (path === '/' || path === '/index.html') {
+    return new Response(INDEX_HTML, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+  }
+  const asset = INLINED_ASSETS[path];
+  if (asset && (path.startsWith('/static/') || path === '/favicon.ico')) {
+    return new Response(asset.body, { headers: { 'Content-Type': asset.mime } });
+  }
   if (env.ASSETS) return env.ASSETS.fetch(request);
   return json({ detail: 'Not found' }, 404);
 }
