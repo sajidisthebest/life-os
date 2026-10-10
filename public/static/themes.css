@@ -1,0 +1,210 @@
+/* Life OS selectable palettes · V0.2 · preserves existing Midnight/Daylight themes. */
+.theme-switcher{position:relative;display:flex;align-items:center}
+.theme-menu{position:absolute;right:-44px;top:calc(100% + 12px);width:324px;max-width:calc(100vw - 25px);padding:15px;border-radius:15px;border:1px solid var(--border-hi);background:var(--surface);color:var(--text);box-shadow:0 25px 75px #0007;z-index:75}
+.theme-menu-heading{display:flex;align-items:baseline;justify-content:space-between;padding:1px 3px 12px;font-size:14px;font-weight:700}
+.theme-menu-heading small{font-size:10px;color:var(--muted);font-weight:400}
+.theme-menu-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.theme-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:11px}
+.theme-help{font-size:11px;color:var(--muted);margin:0 0 5px;line-height:1.5}
+.theme-choice{display:flex;flex-direction:column;align-items:stretch;gap:8px;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:11px;color:var(--text);min-width:0;transition:border-color .16s,background .16s,transform .16s}
+.theme-choice:hover{border-color:var(--purple);background:var(--surface3);transform:translateY(-1px)}
+.theme-choice.selected{border-color:var(--purple);box-shadow:inset 0 0 0 1px var(--purple);background:var(--surface3)}
+.theme-choice-top{display:flex;align-items:center;justify-content:space-between;gap:4px;font-size:11px}
+.theme-choice-top strong{font-weight:680}
+.theme-choice-top .icon{color:var(--purple)}
+.theme-choice-desc{font-size:10px;color:var(--muted)}
+.theme-swatches{display:flex;width:100%;height:24px;overflow:hidden;border-radius:6px;border:1px solid color-mix(in srgb,var(--border) 70%,transparent)}
+.theme-swatches i{flex:1;display:block;min-width:0}
+
+/* Shared tokens for both reference-inspired themes. Other existing presets remain untouched. */
+:root[data-theme='forest']{
+ --bg:#051F20;--sidebar:#0B2B26;--surface:#0B2B26;--surface2:#163832;--surface3:#235347;
+ --border:#235347;--border-hi:#376d5d;--text:#DAF1DE;--muted:#A8CDB4;--dim:#8EB69B;
+ --purple:#8EB69B;--purple2:#4C9174;--blue:#9CC5AC;--green:#8EB69B;
+ --amber:#E8BB75;--red:#E98E87;
+ --tone-text:#DAF1DE;--tone-muted:#A8CDB4;--tone-dim:#8EB69B;
+ --tone-panel:#0B2B26;--tone-raised:#163832;--tone-hover:#235347;
+ --tone-stroke:#235347;--tone-active:#235347;--tone-on-accent:#051F20;
+ --tone-sidebar:#0B2B26;--tone-sidebar-text:#DAF1DE;
+ --tone-subpanel:#163832;--tone-glow:rgba(5,31,32,.35);
+ color-scheme:dark;
+}
+:root[data-theme='mocha']{
+ --bg:#E1D4C2;--sidebar:#291C0E;--surface:#F5EEE4;--surface2:#EDE2D5;--surface3:#E1D4C2;
+ --border:#BEB5A9;--border-hi:#A78D78;--text:#291C0E;--muted:#6E473B;--dim:#795F50;
+ --purple:#6E473B;--purple2:#291C0E;--blue:#6E473B;--green:#3F7858;
+ --amber:#99601E;--red:#A14244;
+ --tone-text:#291C0E;--tone-muted:#6E473B;--tone-dim:#795F50;
+ --tone-panel:#F5EEE4;--tone-raised:#EDE2D5;--tone-hover:#E1D4C2;
+ --tone-stroke:#C7BAA8;--tone-active:#E1D4C2;--tone-on-accent:#FFFFFF;
+ --tone-sidebar:#291C0E;--tone-sidebar-text:#E1D4C2;
+ --tone-subpanel:#EBDFD0;--tone-glow:rgba(41,28,14,.16);
+ color-scheme:light;
+}
+:root[data-theme='forest'] body,:root[data-theme='mocha'] body{background:var(--bg);color:var(--text)}
+:root[data-theme='forest'] .sidebar,:root[data-theme='mocha'] .sidebar{background:var(--tone-sidebar);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .topbar,:root[data-theme='mocha'] .topbar{background:color-mix(in srgb,var(--bg) 94%,transparent);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .panel,:root[data-theme='mocha'] .panel,
+:root[data-theme='forest'] .kpi,:root[data-theme='mocha'] .kpi,
+:root[data-theme='forest'] .modal,:root[data-theme='mocha'] .modal,
+:root[data-theme='forest'] .login-card,:root[data-theme='mocha'] .login-card{background:var(--tone-panel);border-color:var(--tone-stroke);color:var(--tone-text)}
+:root[data-theme='forest'] .footer,:root[data-theme='mocha'] .footer{border-color:var(--tone-stroke);color:var(--tone-muted)}
+:root[data-theme='forest'] .search-trigger,:root[data-theme='mocha'] .search-trigger,
+:root[data-theme='forest'] .search-inline,:root[data-theme='mocha'] .search-inline,
+:root[data-theme='forest'] .input,:root[data-theme='mocha'] .input,
+:root[data-theme='forest'] .login-card input,:root[data-theme='mocha'] .login-card input{background:var(--tone-raised);border-color:var(--tone-stroke);color:var(--tone-text)}
+:root[data-theme='forest'] .search-trigger:hover,:root[data-theme='mocha'] .search-trigger:hover{border-color:var(--purple);color:var(--tone-text)}
+:root[data-theme='forest'] .search-trigger kbd,:root[data-theme='mocha'] .search-trigger kbd{background:var(--tone-hover);color:var(--tone-text)}
+:root[data-theme='forest'] .search-trigger .search-placeholder,:root[data-theme='mocha'] .search-trigger .search-placeholder{color:var(--tone-muted)}
+:root[data-theme='forest'] .time-block,:root[data-theme='mocha'] .time-block{color:var(--tone-muted)}
+:root[data-theme='forest'] .time-block strong,:root[data-theme='mocha'] .time-block strong{color:var(--tone-text)}
+:root[data-theme='forest'] .hero,:root[data-theme='mocha'] .hero{border-color:var(--tone-stroke);background-image:none}
+:root[data-theme='forest'] .hero{background:radial-gradient(ellipse at 74% 18%,#235347 0,transparent 58%),linear-gradient(112deg,#051F20 0%,#0B2B26 60%,#163832 100%)}
+:root[data-theme='mocha'] .hero{background:radial-gradient(ellipse at 78% 5%,#A78D78 0,transparent 54%),linear-gradient(115deg,#291C0E 0%,#6E473B 65%,#A78D78 100%)}
+:root[data-theme='forest'] .hero:before{background:linear-gradient(90deg,rgba(5,31,32,.32),transparent)}
+:root[data-theme='mocha'] .hero:before{background:linear-gradient(90deg,rgba(41,28,14,.30),transparent)}
+:root[data-theme='forest'] .hero h1,:root[data-theme='mocha'] .hero h1,
+:root[data-theme='forest'] .hero p,:root[data-theme='mocha'] .hero p,
+:root[data-theme='forest'] .hero-right,:root[data-theme='mocha'] .hero-right{color:#DAF1DE}
+:root[data-theme='mocha'] .hero h1,:root[data-theme='mocha'] .hero p,:root[data-theme='mocha'] .hero-right{color:#FFF6E7}
+:root[data-theme='forest'] .brand-spark,:root[data-theme='mocha'] .brand-spark,
+:root[data-theme='forest'] .panel-head h3 .icon,:root[data-theme='mocha'] .panel-head h3 .icon{color:var(--purple)}
+:root[data-theme='forest'] .brand-dim{color:#8EB69B}
+:root[data-theme='mocha'] .brand-dim{color:#E1D4C2}
+:root[data-theme='forest'] .brand-pill,:root[data-theme='mocha'] .brand-pill,
+:root[data-theme='forest'] .provider-dot,:root[data-theme='mocha'] .provider-dot{border-color:var(--tone-stroke);background:var(--tone-raised);color:var(--tone-text)}
+:root[data-theme='forest'] .nav-item,:root[data-theme='mocha'] .nav-item,
+:root[data-theme='forest'] .nav-item .icon,:root[data-theme='mocha'] .nav-item .icon{color:var(--tone-sidebar-text)}
+:root[data-theme='forest'] .nav-item.active,:root[data-theme='mocha'] .nav-item.active{background:var(--tone-active);color:var(--tone-text)}
+:root[data-theme='forest'] .nav-item.active .icon,:root[data-theme='mocha'] .nav-item.active .icon{color:var(--purple)}
+:root[data-theme='forest'] .nav-item:hover:not(.active),:root[data-theme='mocha'] .nav-item:hover:not(.active){background:var(--tone-hover);color:var(--tone-text)}
+:root[data-theme='forest'] .nav-item.active:before,:root[data-theme='mocha'] .nav-item.active:before{background:var(--purple)}
+:root[data-theme='forest'] .integration-header,:root[data-theme='mocha'] .integration-header,
+:root[data-theme='forest'] .profile,:root[data-theme='mocha'] .profile{border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .integration-row,:root[data-theme='mocha'] .integration-row,
+:root[data-theme='forest'] .icon-btn,:root[data-theme='mocha'] .icon-btn{color:var(--tone-muted)}
+:root[data-theme='forest'] .icon-btn:hover,:root[data-theme='mocha'] .icon-btn:hover{background:var(--tone-hover);color:var(--tone-text)}
+:root[data-theme='forest'] .kpi-name,:root[data-theme='mocha'] .kpi-name,
+:root[data-theme='forest'] .kpi-sub,:root[data-theme='mocha'] .kpi-sub,
+:root[data-theme='forest'] .mini-stat-label,:root[data-theme='mocha'] .mini-stat-label{color:var(--tone-muted)}
+:root[data-theme='forest'] .kpi-ico,:root[data-theme='mocha'] .kpi-ico{background:var(--tone-raised);color:var(--purple)}
+:root[data-theme='forest'] .kpi-ring,:root[data-theme='mocha'] .kpi-ring{background:conic-gradient(var(--purple) var(--p,0%),var(--tone-hover) 0)}
+:root[data-theme='forest'] .kpi-ring:before,:root[data-theme='mocha'] .kpi-ring:before{background:var(--tone-panel)}
+:root[data-theme='forest'] .panel-head h3,:root[data-theme='mocha'] .panel-head h3,
+:root[data-theme='forest'] .entry-title,:root[data-theme='mocha'] .entry-title,
+:root[data-theme='forest'] .entry-title strong,:root[data-theme='mocha'] .entry-title strong,
+:root[data-theme='forest'] .mini-stat-value,:root[data-theme='mocha'] .mini-stat-value{color:var(--tone-text)}
+:root[data-theme='forest'] .summary,:root[data-theme='mocha'] .summary,
+:root[data-theme='forest'] .brief-bullet,:root[data-theme='mocha'] .brief-bullet,
+:root[data-theme='forest'] .entry-sub,:root[data-theme='mocha'] .entry-sub,
+:root[data-theme='forest'] .count-note,:root[data-theme='mocha'] .count-note,
+:root[data-theme='forest'] .reply-preview,:root[data-theme='mocha'] .reply-preview,
+:root[data-theme='forest'] .reply-time,:root[data-theme='mocha'] .reply-time,
+:root[data-theme='forest'] .schedule-time,:root[data-theme='mocha'] .schedule-time,
+:root[data-theme='forest'] .page-head p,:root[data-theme='mocha'] .page-head p,
+:root[data-theme='forest'] .source-heading small,:root[data-theme='mocha'] .source-heading small,
+:root[data-theme='forest'] .modal-sub,:root[data-theme='mocha'] .modal-sub{color:var(--tone-muted)}
+:root[data-theme='forest'] .entry,:root[data-theme='mocha'] .entry,
+:root[data-theme='forest'] .project-row,:root[data-theme='mocha'] .project-row,
+:root[data-theme='forest'] .source-tile,:root[data-theme='mocha'] .source-tile,
+:root[data-theme='forest'] .data-table td,:root[data-theme='mocha'] .data-table td,
+:root[data-theme='forest'] .data-table th,:root[data-theme='mocha'] .data-table th{border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .subtle-box,:root[data-theme='mocha'] .subtle-box,
+:root[data-theme='forest'] .mini-stat,:root[data-theme='mocha'] .mini-stat,
+:root[data-theme='forest'] .schedule-card,:root[data-theme='mocha'] .schedule-card,
+:root[data-theme='forest'] .timer-task,:root[data-theme='mocha'] .timer-task{background:var(--tone-subpanel);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .schedule-card.purple,:root[data-theme='mocha'] .schedule-card.purple,
+:root[data-theme='forest'] .schedule-card.green,:root[data-theme='mocha'] .schedule-card.green{background:var(--tone-subpanel)}
+:root[data-theme='forest'] .schedule-card strong,:root[data-theme='mocha'] .schedule-card strong{color:var(--tone-text)}
+:root[data-theme='forest'] .schedule-card small,:root[data-theme='mocha'] .schedule-card small{color:var(--tone-muted)}
+:root[data-theme='forest'] .schedule-stripe,:root[data-theme='mocha'] .schedule-stripe{background:var(--purple)}
+:root[data-theme='forest'] .schedule-stripe.purple,:root[data-theme='mocha'] .schedule-stripe.purple{background:var(--blue)}
+:root[data-theme='forest'] .schedule-stripe.green,:root[data-theme='mocha'] .schedule-stripe.green{background:var(--green)}
+:root[data-theme='forest'] .btn,:root[data-theme='mocha'] .btn{background:var(--tone-raised);border-color:var(--tone-stroke);color:var(--tone-text)}
+:root[data-theme='forest'] .btn:hover,:root[data-theme='mocha'] .btn:hover{background:var(--tone-hover)}
+:root[data-theme='forest'] .btn.primary,:root[data-theme='mocha'] .btn.primary,
+:root[data-theme='forest'] .timer-play,:root[data-theme='mocha'] .timer-play{background:var(--purple);color:var(--tone-on-accent);border-color:var(--purple);box-shadow:0 6px 16px var(--tone-glow)}
+:root[data-theme='forest'] .btn.primary:hover,:root[data-theme='mocha'] .btn.primary:hover{background:var(--purple2);color:white}
+:root[data-theme='forest'] .text-link,:root[data-theme='mocha'] .text-link,
+:root[data-theme='forest'] .link,:root[data-theme='mocha'] .link{color:var(--purple)}
+:root[data-theme='forest'] .text-link:hover,:root[data-theme='mocha'] .text-link:hover{color:var(--tone-text)}
+:root[data-theme='forest'] .tab,:root[data-theme='mocha'] .tab,
+:root[data-theme='forest'] .timer-tab,:root[data-theme='mocha'] .timer-tab{color:var(--tone-muted)}
+:root[data-theme='forest'] .tab.active,:root[data-theme='mocha'] .tab.active,
+:root[data-theme='forest'] .timer-tab.active,:root[data-theme='mocha'] .timer-tab.active{background:var(--tone-hover);color:var(--tone-text)}
+:root[data-theme='forest'] .section-tabs,:root[data-theme='mocha'] .section-tabs,
+:root[data-theme='forest'] .timer-tabs,:root[data-theme='mocha'] .timer-tabs{background:var(--tone-raised);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .timer-ring,:root[data-theme='mocha'] .timer-ring{background:conic-gradient(var(--purple) var(--progress,0%),var(--tone-hover) 0)}
+:root[data-theme='forest'] .timer-ring-inside,:root[data-theme='mocha'] .timer-ring-inside{background:var(--tone-panel)}
+:root[data-theme='forest'] .progress-track,:root[data-theme='mocha'] .progress-track{background:var(--tone-hover)}
+:root[data-theme='forest'] .progress-track>span,:root[data-theme='mocha'] .progress-track>span{background:var(--purple)}
+:root[data-theme='forest'] .mini-chart span,:root[data-theme='mocha'] .mini-chart span,
+:root[data-theme='forest'] .chart-bar,:root[data-theme='mocha'] .chart-bar{background:var(--purple)}
+:root[data-theme='forest'] .empty,:root[data-theme='mocha'] .empty{color:var(--tone-muted)}
+:root[data-theme='forest'] .empty strong,:root[data-theme='mocha'] .empty strong{color:var(--tone-text)}
+:root[data-theme='forest'] .entry-check,:root[data-theme='mocha'] .entry-check{border-color:var(--tone-muted)}
+:root[data-theme='forest'] .entry-check:checked,:root[data-theme='mocha'] .entry-check:checked{background:var(--purple);border-color:var(--purple)}
+:root[data-theme='mocha'] .entry-check:checked:after{border-color:#FFFFFF}
+:root[data-theme='forest'] .chip,:root[data-theme='mocha'] .chip{background:var(--tone-subpanel);border-color:var(--tone-stroke);color:var(--tone-text)}
+:root[data-theme='forest'] .chip.green,:root[data-theme='mocha'] .chip.green{color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--tone-panel))}
+:root[data-theme='forest'] .chip.red,:root[data-theme='mocha'] .chip.red{color:var(--red);background:color-mix(in srgb,var(--red) 12%,var(--tone-panel))}
+:root[data-theme='forest'] .chip.amber,:root[data-theme='mocha'] .chip.amber{color:var(--amber);background:color-mix(in srgb,var(--amber) 12%,var(--tone-panel))}
+:root[data-theme='forest'] .chip.purple,:root[data-theme='mocha'] .chip.purple{color:var(--purple);background:color-mix(in srgb,var(--purple) 12%,var(--tone-panel))}
+:root[data-theme='forest'] .notice,:root[data-theme='mocha'] .notice,
+:root[data-theme='forest'] .notice.info,:root[data-theme='mocha'] .notice.info{background:var(--tone-subpanel);color:var(--tone-text);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .modal-overlay,:root[data-theme='mocha'] .modal-overlay{background:rgba(0,0,0,.55)}
+:root[data-theme='forest'] .login-screen,:root[data-theme='mocha'] .login-screen{background:var(--bg)}
+:root[data-theme='forest'] .login-card p,:root[data-theme='mocha'] .login-card p,
+:root[data-theme='forest'] .login-card label,:root[data-theme='mocha'] .login-card label,
+:root[data-theme='forest'] .form-group label,:root[data-theme='mocha'] .form-group label{color:var(--tone-muted)}
+:root[data-theme='forest'] .toast,:root[data-theme='mocha'] .toast{background:var(--tone-raised);border-color:var(--tone-stroke);color:var(--tone-text)}
+:root[data-theme='forest'] .data-table td,:root[data-theme='mocha'] .data-table td{color:var(--tone-text)}
+:root[data-theme='forest'] .data-table th,:root[data-theme='mocha'] .data-table th{color:var(--tone-muted)}
+:root[data-theme='forest'] .reply-avatar,:root[data-theme='mocha'] .reply-avatar,
+:root[data-theme='forest'] .profile-avatar,:root[data-theme='mocha'] .profile-avatar,
+:root[data-theme='forest'] .top-avatar,:root[data-theme='mocha'] .top-avatar{background:var(--tone-hover);color:var(--tone-text)}
+:root[data-theme='forest'] .source-tile:last-child,:root[data-theme='mocha'] .source-tile:last-child{border-bottom:0}
+:root[data-theme='forest'] .theme-menu,:root[data-theme='mocha'] .theme-menu{background:var(--tone-panel);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .theme-choice,:root[data-theme='mocha'] .theme-choice{background:var(--tone-raised);border-color:var(--tone-stroke)}
+:root[data-theme='forest'] .theme-choice:hover,:root[data-theme='mocha'] .theme-choice:hover,
+:root[data-theme='forest'] .theme-choice.selected,:root[data-theme='mocha'] .theme-choice.selected{background:var(--tone-hover);border-color:var(--purple)}
+/* Espresso sidebar stays dark against a light latte workspace. */
+:root[data-theme='mocha'] .sidebar{border-color:#6E473B}
+:root[data-theme='mocha'] .sidebar .brand,:root[data-theme='mocha'] .sidebar .nav-item,
+:root[data-theme='mocha'] .sidebar .nav-item .icon,:root[data-theme='mocha'] .sidebar .profile strong{color:#E1D4C2}
+:root[data-theme='mocha'] .sidebar .nav-item.active{background:#6E473B;color:#FFF6E7}
+:root[data-theme='mocha'] .sidebar .nav-item.active .icon{color:#E1D4C2}
+:root[data-theme='mocha'] .sidebar .nav-item:hover:not(.active){background:#6E473B;color:#FFFFFF}
+:root[data-theme='mocha'] .sidebar .sidebar-caption,:root[data-theme='mocha'] .sidebar .integration-row,
+:root[data-theme='mocha'] .sidebar .profile small{color:#BEB5A9}
+:root[data-theme='mocha'] .sidebar .integration-header,:root[data-theme='mocha'] .sidebar .profile{border-color:#6E473B}
+:root[data-theme='mocha'] .sidebar .provider-dot{background:#6E473B;border-color:#A78D78;color:#E1D4C2}
+:root[data-theme='mocha'] .sidebar .icon-btn{color:#E1D4C2}
+:root[data-theme='mocha'] .sidebar .icon-btn:hover{background:#6E473B}
+:root[data-theme='mocha'] .sidebar .brand-pill{border-color:#6E473B;background:#291C0E;color:#E1D4C2}
+:root[data-theme='mocha'] .brand-spark{color:#A78D78}
+:root[data-theme='mocha'] .kpi-ico.red{color:var(--red)}
+:root[data-theme='mocha'] .kpi-ico.green{color:var(--green)}
+:root[data-theme='mocha'] .kpi-sub.red{color:var(--red)}
+:root[data-theme='mocha'] .kpi-sub.green{color:var(--green)}
+:root[data-theme='forest'] .kpi-sub.red{color:var(--red)}
+:root[data-theme='forest'] .kpi-sub.green{color:var(--green)}
+:root[data-theme='mocha'] .mobile-nav{background:#291C0E;border-color:#6E473B}
+:root[data-theme='forest'] .mobile-nav{background:#0B2B26;border-color:#235347}
+:root[data-theme='mocha'] .mobile-nav button{color:#BEB5A9}
+:root[data-theme='mocha'] .mobile-nav button.active{color:#E1D4C2}
+:root[data-theme='forest'] .mobile-nav button{color:#8EB69B}
+:root[data-theme='forest'] .mobile-nav button.active{color:#DAF1DE}
+@media(max-width:630px){.theme-menu{right:-100px;width:min(324px,calc(100vw - 22px))}.theme-settings-grid{grid-template-columns:1fr 1fr}.theme-choice{padding:10px}.theme-swatches{height:21px}}
+
+/* Contrast fixes for labels that previously used fixed cool-blue text. */
+:root[data-theme='forest'] .reply-name,:root[data-theme='mocha'] .reply-name{color:var(--tone-text)}
+:root[data-theme='forest'] .timer-caption,:root[data-theme='mocha'] .timer-caption,
+:root[data-theme='forest'] .timer-task small,:root[data-theme='mocha'] .timer-task small,
+:root[data-theme='forest'] .chart-label,:root[data-theme='mocha'] .chart-label,
+:root[data-theme='forest'] .profile small,:root[data-theme='mocha'] .profile small,
+:root[data-theme='forest'] .empty p,:root[data-theme='mocha'] .empty p{color:var(--tone-muted)}
+:root[data-theme='forest'] .tiny-icon,:root[data-theme='mocha'] .tiny-icon{color:var(--tone-muted)}
+:root[data-theme='forest'] .text-purple,:root[data-theme='mocha'] .text-purple{color:var(--purple)}
+:root[data-theme='forest'] .brand-pill{background:#163832;color:#DAF1DE}
+:root[data-theme='mocha'] .timer-caption,:root[data-theme='mocha'] .timer-task small{color:#6E473B}
