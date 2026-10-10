@@ -1,6 +1,6 @@
 # Life OS — Cloudflare Workers + D1 port of v0.4 (FastAPI + SQLite).
 # Deploy with: wrangler deploy
-# NOTE: replace REPLACE_WITH_D1_ID with the real id from `wrangler d1 create life-os-db`.
+# NOTE: replace e78ea4e5-9bb3-41a4-96f9-5c19f9ba6683 with the real id from `wrangler d1 create life-os-db`.
 
 name = "life-os"
 main = "src/index.ts"
@@ -20,7 +20,7 @@ run_worker_first = true
 [[d1_databases]]
 binding = "DB"
 database_name = "life-os-db"
-database_id = "REPLACE_WITH_D1_ID"
+database_id = "e78ea4e5-9bb3-41a4-96f9-5c19f9ba6683"
 migrations_dir = "migrations"
 
 # Secrets are NOT stored here. Set them with:
