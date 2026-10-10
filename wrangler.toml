@@ -1,0 +1,31 @@
+# Life OS — Cloudflare Workers + D1 port of v0.4 (FastAPI + SQLite).
+# Deploy with: wrangler deploy
+# NOTE: replace REPLACE_WITH_D1_ID with the real id from `wrangler d1 create life-os-db`.
+
+name = "life-os"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# No account_id here on purpose: wrangler uses the logged-in account.
+# Run `wrangler login` (or set CLOUDFLARE_API_TOKEN) before deploying.
+
+[assets]
+directory = "public"
+# Route every request through the Worker first so the defensive security
+# headers in src/index.ts also apply to static responses (same as the
+# FastAPI security_headers middleware). Unmatched paths fall through to
+# the asset store via env.ASSETS.
+run_worker_first = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "life-os-db"
+database_id = "REPLACE_WITH_D1_ID"
+migrations_dir = "migrations"
+
+# Secrets are NOT stored here. Set them with:
+#   wrangler secret put SESSION_SECRET
+#   wrangler secret put APP_PASSWORD
+#   wrangler secret put AGENT_API_KEY
+#   wrangler secret put MCP_API_KEY
+#   wrangler secret put PUBLIC_BASE_URL   # e.g. https://lifeos.sajidpsd.com
