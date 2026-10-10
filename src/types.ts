@@ -38,7 +38,7 @@ export interface AssetFetcher {
 
 export interface Env {
   DB: D1Database;
-  ASSETS: AssetFetcher;
+  ASSETS?: AssetFetcher;
   SESSION_SECRET: string;
   APP_PASSWORD: string;
   AGENT_API_KEY: string;
